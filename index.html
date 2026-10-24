@@ -1,944 +1,481 @@
-<!DOCTYPE html>
-<html lang="pt-BR" class="scroll-smooth">
+<!doctype html>
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Calculadora REAL — Descubra o preço máximo de compra antes de errar</title>
-  <meta name="description" content="A única calculadora que parte do preço de mercado e te diz quanto você pode pagar no produto para ter margem real. Salve produtos, acompanhe giro, receba alertas no WhatsApp." />
-  <meta property="og:title" content="Calculadora REAL — Você define o mercado. A gente diz se o produto cabe." />
-  <meta property="og:description" content="Não começa pelo custo. Começa pelo preço médio do mercado e descobre o máximo que você pode pagar no produto para lucrar de verdade." />
-  <meta property="og:url" content="https://calculadorarealecom.com.br" />
-  <meta property="og:type" content="website" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg:       #0D0A14;
-      --bg2:      #130F1E;
-      --bg3:      #1A1428;
-      --border:   rgba(107,33,168,0.22);
-      --purple:   #9333EA;
-      --purple-d: #6B21A8;
-      --purple-l: #C084FC;
-      --orange:   #F97316;
-      --orange-l: #FB923C;
-      --text:     #F4F0FF;
-      --muted:    #9E95B3;
-      --card:     #17122A;
-      --green:    #4ADE80;
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { font-size: 16px; }
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculadora REAL | Saiba quanto pagar no produto antes de comprar</title>
+<meta name="description" content="A Calculadora REAL parte do preço do mercado e mostra o preço máximo que você pode pagar no produto para ter margem de verdade no Mercado Livre.">
+<meta property="og:title" content="Calculadora REAL — precificação para o Mercado Livre">
+<meta property="og:description" content="Parta do preço do mercado e descubra o máximo que pode pagar no produto para ter a sua margem.">
+<meta property="og:image" content="https://calculadorarealecom.com.br/logo.png">
+<link rel="icon" href="https://calculadorarealecom.com.br/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0f0f12;--bg2:#141419;--card:#18181e;--card2:#1e1e26;--border:#2a2a33;
+  --text:#ddd8f0;--text2:#a19db3;--text3:#6f6c7e;
+  --o:#f97316;--p:#7c3aed;--in:#22c55e;--mark:#F2D024;--mark-fg:#1a1600;
+  --r:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:Figtree,system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+svg{display:block}
 
-    /* UTILS */
-    .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
-    .tag {
-      display: inline-block;
-      font-size: 11px; font-weight: 700;
-      letter-spacing: .12em; text-transform: uppercase;
-      color: var(--purple-l);
-      border: 1px solid var(--border);
-      border-radius: 999px; padding: 4px 14px; margin-bottom: 20px;
-      background: rgba(147,51,234,.08);
-    }
-    .section-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(28px, 4vw, 44px);
-      font-weight: 700; line-height: 1.12; margin-bottom: 16px;
-    }
-    .section-sub {
-      color: var(--muted); font-size: 17px;
-      max-width: 560px; margin: 0 auto 56px;
-    }
-    .text-center { text-align: center; }
-    .hl  { color: var(--orange); }
-    .hlp { color: var(--purple-l); }
+/* Nav */
+nav{position:sticky;top:0;z-index:20;background:rgba(15,15,18,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+nav img{height:30px}
+.nav-r{display:flex;gap:10px;align-items:center}
+.lnk{font-size:.88rem;font-weight:600;color:var(--text2);padding:8px 10px}
+.lnk:hover{color:var(--text)}
 
-    /* BUTTONS */
-    .btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-weight: 700; font-size: 15px;
-      border-radius: 10px; padding: 14px 28px;
-      border: none; cursor: pointer; text-decoration: none;
-      transition: all .18s ease; white-space: nowrap;
-    }
-    .btn-primary {
-      background: var(--orange); color: #fff;
-      box-shadow: 0 0 28px rgba(249,115,22,.35);
-    }
-    .btn-primary:hover { background: var(--orange-l); transform: translateY(-2px); box-shadow: 0 0 44px rgba(249,115,22,.5); }
-    .btn-ghost {
-      background: transparent; color: var(--text);
-      border: 1px solid var(--border);
-    }
-    .btn-ghost:hover { border-color: var(--purple); color: var(--purple-l); }
-    .btn-lg { padding: 18px 36px; font-size: 17px; border-radius: 12px; }
-    .btn-outline-o {
-      background: transparent; color: var(--orange);
-      border: 1.5px solid var(--orange);
-    }
-    .btn-outline-o:hover { background: rgba(249,115,22,.08); }
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:800;font-size:.98rem;border-radius:12px;padding:14px 22px;transition:transform .15s,background .15s;cursor:pointer;border:0;font-family:inherit}
+.btn:hover{transform:translateY(-1px)}
+.btn-p{background:var(--o);color:#fff}
+.btn-p:hover{background:#fb8a3c}
+.btn-s{background:transparent;color:var(--text);border:1.5px solid var(--border)}
+.btn-s:hover{border-color:var(--text3)}
+.btn-sm{padding:9px 16px;font-size:.85rem;border-radius:10px}
 
-    /* NAV */
-    nav {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(13,10,20,.88);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-inner {
-      display: flex; align-items: center;
-      justify-content: space-between; height: 64px;
-    }
-    .nav-logo {
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 700; font-size: 18px;
-      text-decoration: none; color: var(--text);
-      display: flex; align-items: center; gap: 10px;
-    }
-    .logo-badge {
-      background: linear-gradient(135deg, var(--purple-d), var(--purple));
-      color: white; font-size: 11px; font-weight: 800;
-      padding: 3px 8px; border-radius: 6px; letter-spacing: .06em;
-    }
-    .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
-    .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color .15s; }
-    .nav-links a:hover { color: var(--text); }
-    .nav-cta { display: flex; align-items: center; gap: 12px; }
-    @media (max-width: 768px) { .nav-links { display: none; } }
+/* Hero */
+.hero{padding:72px 0 64px}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.75rem;font-weight:800;letter-spacing:.08em;color:var(--o);text-transform:uppercase;margin-bottom:18px}
+.eyebrow span{width:6px;height:6px;border-radius:50%;background:var(--o)}
+h1{font-size:3rem;line-height:1.08;font-weight:900;letter-spacing:-.02em;color:#f1eefa}
+h1 .hl{color:var(--o)}
+.lead{font-size:1.12rem;color:var(--text2);margin:20px 0 30px;max-width:520px}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+.trust{display:flex;gap:20px;flex-wrap:wrap;margin-top:24px;font-size:.84rem;color:var(--text2)}
+.trust div{display:flex;align-items:center;gap:7px}
+.trust svg{color:var(--in)}
 
-    /* HERO */
-    .hero {
-      padding: 96px 0 72px;
-      position: relative; overflow: hidden;
-    }
-    .hero::before {
-      content: '';
-      position: absolute; top: -180px; left: 50%;
-      transform: translateX(-50%);
-      width: 900px; height: 600px;
-      background: radial-gradient(ellipse at center, rgba(147,51,234,.18) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .hero-pill {
-      background: rgba(249,115,22,.12);
-      border: 1px solid rgba(249,115,22,.3);
-      color: var(--orange-l);
-      font-size: 12px; font-weight: 700;
-      letter-spacing: .08em; text-transform: uppercase;
-      padding: 5px 16px; border-radius: 999px;
-      margin-bottom: 24px; display: inline-block;
-    }
-    h1 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(36px, 5.5vw, 68px);
-      font-weight: 700; line-height: 1.08;
-      letter-spacing: -.02em; margin-bottom: 28px;
-      max-width: 840px; margin-left: auto; margin-right: auto;
-    }
-    .hero-sub {
-      font-size: clamp(17px, 2vw, 20px);
-      color: var(--muted);
-      max-width: 580px; margin: 0 auto 44px; line-height: 1.7;
-    }
-    .hero-ctas {
-      display: flex; align-items: center; justify-content: center;
-      gap: 16px; flex-wrap: wrap; margin-bottom: 56px;
-    }
-    .hero-trust {
-      display: flex; align-items: center;
-      justify-content: center; gap: 28px; flex-wrap: wrap;
-    }
-    .trust-item {
-      display: flex; align-items: center; gap: 8px;
-      color: var(--muted); font-size: 13px; font-weight: 500;
-    }
-    .trust-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--purple); }
+/* Mock */
+.mock{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:22px;box-shadow:0 30px 80px rgba(0,0,0,.45)}
+.mock-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;font-size:.78rem;color:var(--text3);font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.mock-h b{color:var(--text2)}
+.field{display:flex;justify-content:space-between;align-items:center;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:13px 15px;margin-bottom:10px}
+.field span{font-size:.86rem;color:var(--text2)}
+.field b{font-size:1.05rem;color:#f1eefa}
+.answer{margin-top:16px;border-radius:14px;background:var(--card2);border:1px solid var(--border);padding:18px}
+.answer small{font-size:.74rem;font-weight:800;letter-spacing:.06em;color:var(--text3);text-transform:uppercase}
+.big{display:inline-block;margin:8px 0 6px;font-size:2.3rem;font-weight:900;background:var(--mark);color:var(--mark-fg);border-radius:10px;padding:0 12px;line-height:1.35}
+.answer p{font-size:.84rem;color:var(--text2)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.chip{font-size:.74rem;color:var(--text2);border:1px solid var(--border);border-radius:999px;padding:4px 10px}
+.ex{font-size:.72rem;color:var(--text3);text-align:right;margin-top:10px}
 
-    /* HERO DEMO MOCK */
-    .hero-demo { margin-top: 72px; position: relative; }
-    .demo-glow {
-      position: absolute; bottom: -60px; left: 50%;
-      transform: translateX(-50%);
-      width: 70%; height: 120px;
-      background: radial-gradient(ellipse, rgba(147,51,234,.28) 0%, transparent 70%);
-      filter: blur(28px);
-    }
-    .demo-frame {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 20px; overflow: hidden;
-      max-width: 820px; margin: 0 auto;
-      box-shadow: 0 40px 100px rgba(0,0,0,.55);
-    }
-    .demo-topbar {
-      background: var(--bg2);
-      padding: 14px 20px;
-      display: flex; align-items: center; gap: 8px;
-      border-bottom: 1px solid var(--border);
-    }
-    .dot { width: 12px; height: 12px; border-radius: 50%; }
-    .dot-r { background: #FF5F57; } .dot-y { background: #FEBC2E; } .dot-g { background: #28C840; }
-    .demo-url {
-      margin-left: 12px;
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      border-radius: 6px; padding: 5px 16px;
-      font-size: 12px; color: var(--muted);
-      flex: 1; max-width: 320px;
-    }
-    .demo-body { padding: 28px 32px; }
-    .demo-label {
-      font-size: 11px; font-weight: 700;
-      letter-spacing: .1em; text-transform: uppercase;
-      color: var(--muted); margin-bottom: 20px;
-    }
-    .demo-input-row {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 12px; margin-bottom: 20px;
-    }
-    .demo-input {
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      border-radius: 10px; padding: 14px 16px;
-    }
-    .demo-input-label { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
-    .demo-input-val { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 700; }
-    .demo-divider {
-      border: none; border-top: 1px solid var(--border); margin: 0 0 20px;
-    }
-    .demo-result-label {
-      font-size: 11px; font-weight: 700;
-      letter-spacing: .1em; text-transform: uppercase;
-      color: var(--green); margin-bottom: 8px;
-    }
-    .demo-result-main {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 42px; font-weight: 700;
-      color: var(--green); line-height: 1; margin-bottom: 8px;
-    }
-    .demo-result-sub { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
-    .demo-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-    .demo-chip {
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      border-radius: 8px; padding: 8px 14px;
-      font-size: 12px; color: var(--muted);
-    }
-    .demo-chip span { font-weight: 700; color: var(--text); }
-    .demo-save-btn {
-      margin-top: 20px;
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(147,51,234,.15);
-      border: 1px solid rgba(147,51,234,.4);
-      border-radius: 8px; padding: 10px 18px;
-      font-size: 13px; font-weight: 600; color: var(--purple-l);
-      cursor: pointer;
-    }
-    @media (max-width: 640px) {
-      .demo-input-row { grid-template-columns: 1fr; }
-      .hero-ctas { flex-direction: column; }
-      .hero-trust { flex-direction: column; gap: 14px; }
-    }
+/* Sections */
+section{padding:84px 0}
+.alt{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.sh{max-width:640px;margin-bottom:44px}
+.sh.c{text-align:center;margin-left:auto;margin-right:auto}
+h2{font-size:2.1rem;line-height:1.15;font-weight:900;letter-spacing:-.015em;color:#f1eefa}
+.sh p{color:var(--text2);font-size:1.03rem;margin-top:12px}
 
-    /* DIFFERENTIATOR BANNER */
-    .diff-banner {
-      background: linear-gradient(135deg, rgba(107,33,168,.3), rgba(249,115,22,.15));
-      border: 1px solid rgba(147,51,234,.4);
-      border-radius: 20px;
-      padding: 40px 48px;
-      display: flex; align-items: center; gap: 40px;
-      flex-wrap: wrap;
-      margin: 80px auto 0;
-      max-width: 860px;
-    }
-    .diff-icon { font-size: 48px; flex-shrink: 0; }
-    .diff-text h3 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 22px; font-weight: 700; margin-bottom: 10px;
-    }
-    .diff-text p { color: var(--muted); font-size: 15px; line-height: 1.65; }
-    @media (max-width: 640px) {
-      .diff-banner { padding: 28px 24px; }
-    }
+/* Compare */
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cmp-c{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:26px}
+.cmp-c.good{border-color:#f9731666}
+.tag{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.06em;border-radius:6px;padding:3px 8px;margin-bottom:14px}
+.tag.bad{background:#ef444420;color:#f87171}
+.tag.ok{background:#f9731620;color:var(--o)}
+.cmp-c h3{font-size:1.15rem;font-weight:800;color:#f1eefa;margin-bottom:14px}
+.steps{list-style:none;counter-reset:s}
+.steps li{counter-increment:s;position:relative;padding:8px 0 8px 38px;font-size:.95rem;color:var(--text2)}
+.steps li::before{content:counter(s);position:absolute;left:0;top:7px;width:26px;height:26px;border-radius:8px;background:var(--card2);border:1px solid var(--border);font-size:.8rem;font-weight:800;display:flex;align-items:center;justify-content:center;color:var(--text)}
+.cmp-c .res{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:.9rem;font-weight:700;color:var(--text)}
 
-    /* LOGIC FLIP */
-    .section-flip { padding: 96px 0; }
-    .flip-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 24px; align-items: stretch;
-    }
-    @media (max-width: 680px) { .flip-grid { grid-template-columns: 1fr; } }
-    .flip-card {
-      border-radius: 20px; padding: 36px 32px;
-    }
-    .flip-card.wrong {
-      background: rgba(239,68,68,.06);
-      border: 1px solid rgba(239,68,68,.2);
-    }
-    .flip-card.right {
-      background: rgba(147,51,234,.08);
-      border: 1px solid rgba(147,51,234,.3);
-    }
-    .flip-badge {
-      display: inline-block;
-      font-size: 11px; font-weight: 800;
-      letter-spacing: .1em; text-transform: uppercase;
-      padding: 4px 12px; border-radius: 999px; margin-bottom: 20px;
-    }
-    .flip-badge.wrong { background: rgba(239,68,68,.15); color: #F87171; border: 1px solid rgba(239,68,68,.3); }
-    .flip-badge.right { background: rgba(147,51,234,.15); color: var(--purple-l); border: 1px solid rgba(147,51,234,.3); }
-    .flip-card h3 { font-size: 19px; font-weight: 700; margin-bottom: 16px; line-height: 1.3; }
-    .flip-step {
-      display: flex; align-items: flex-start; gap: 12px;
-      margin-bottom: 14px; font-size: 14px; color: var(--muted); line-height: 1.55;
-    }
-    .flip-step-num {
-      width: 24px; height: 24px;
-      border-radius: 50%; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 11px; font-weight: 800;
-    }
-    .wrong .flip-step-num { background: rgba(239,68,68,.15); color: #F87171; }
-    .right .flip-step-num { background: rgba(147,51,234,.15); color: var(--purple-l); }
-    .flip-conclusion {
-      margin-top: 20px; padding: 14px 16px;
-      border-radius: 10px; font-size: 14px; font-weight: 600;
-    }
-    .wrong .flip-conclusion { background: rgba(239,68,68,.08); color: #F87171; }
-    .right .flip-conclusion { background: rgba(147,51,234,.1); color: var(--purple-l); }
+/* Features */
+.feat{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.f{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:22px}
+.ic{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;color:#fff}
+.f h3{font-size:1.02rem;font-weight:800;color:#f1eefa;margin-bottom:6px}
+.f p{font-size:.9rem;color:var(--text2)}
 
-    /* FEATURES */
-    .section-features {
-      padding: 96px 0;
-      background: var(--bg2);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-    }
-    .feat {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px; padding: 28px 28px 24px;
-      transition: border-color .2s, transform .2s;
-      position: relative; overflow: hidden;
-    }
-    .feat:hover { border-color: var(--purple); transform: translateY(-3px); }
-    .feat-star {
-      position: absolute; top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--purple), transparent);
-    }
-    .feat-icon {
-      width: 46px; height: 46px; border-radius: 12px;
-      background: rgba(147,51,234,.12);
-      border: 1px solid rgba(147,51,234,.25);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 22px; margin-bottom: 18px;
-    }
-    .feat h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
-    .feat p { font-size: 14px; color: var(--muted); line-height: 1.65; }
-    .feat-badge {
-      display: inline-block; margin-top: 14px;
-      font-size: 11px; font-weight: 700;
-      letter-spacing: .07em; text-transform: uppercase;
-      color: var(--orange);
-      background: rgba(249,115,22,.08);
-      border: 1px solid rgba(249,115,22,.2);
-      border-radius: 999px; padding: 3px 10px;
-    }
-    .feat-badge.purple-badge {
-      color: var(--purple-l);
-      background: rgba(147,51,234,.08);
-      border-color: rgba(147,51,234,.2);
-    }
+/* Steps how */
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.h{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:24px}
+.h .n{font-size:.8rem;font-weight:900;color:var(--o);letter-spacing:.06em}
+.h h3{font-size:1.05rem;font-weight:800;color:#f1eefa;margin:8px 0 6px}
+.h p{font-size:.9rem;color:var(--text2)}
 
-    /* PROOF */
-    .section-proof { padding: 96px 0; }
-    .proof-stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 2px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 20px; overflow: hidden;
-      margin-bottom: 72px;
-    }
-    .stat { background: var(--card); padding: 36px 28px; text-align: center; }
-    .stat-num {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 42px; font-weight: 700; line-height: 1; margin-bottom: 8px;
-    }
-    .stat-label { font-size: 13px; color: var(--muted); }
-    .testimonials {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-    }
-    .testimonial {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px; padding: 28px;
-    }
-    .testimonial-stars { color: var(--orange); font-size: 14px; margin-bottom: 14px; letter-spacing: 2px; }
-    .testimonial-text { font-size: 15px; line-height: 1.7; color: var(--text); margin-bottom: 20px; }
-    .testimonial-author { display: flex; align-items: center; gap: 12px; }
-    .author-avatar {
-      width: 40px; height: 40px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--purple-d), var(--purple));
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: 15px;
-    }
-    .author-name { font-size: 14px; font-weight: 700; }
-    .author-sub { font-size: 12px; color: var(--muted); }
+/* Pricing */
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:800px;margin:0 auto}
+.plan{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:30px 26px;display:flex;flex-direction:column;position:relative}
+.plan.best{border:2px solid var(--o)}
+.badge{position:absolute;top:-13px;left:26px;background:var(--o);color:#fff;font-size:.72rem;font-weight:900;letter-spacing:.06em;border-radius:999px;padding:5px 12px}
+.plan h3{font-size:1rem;font-weight:800;color:var(--text2);letter-spacing:.04em;text-transform:uppercase}
+.price{font-size:2.6rem;font-weight:900;color:#f1eefa;margin:10px 0 2px;letter-spacing:-.02em}
+.price small{font-size:1rem;font-weight:600;color:var(--text2)}
+.per{font-size:.88rem;color:var(--text2);min-height:44px}
+.per b{color:var(--in)}
+.plan ul{list-style:none;margin:20px 0 26px;flex:1}
+.plan li{display:flex;gap:10px;align-items:flex-start;font-size:.92rem;color:var(--text2);padding:6px 0}
+.plan li svg{flex-shrink:0;margin-top:3px;color:var(--in)}
+.plan .btn{width:100%}
+.plan-note{font-size:.76rem;color:var(--text3);text-align:center;margin-top:10px}
 
-    /* PRICING */
-    .section-pricing {
-      padding: 96px 0;
-      background: var(--bg2);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px; align-items: start;
-    }
-    .pricing-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 20px; padding: 36px 32px; position: relative;
-    }
-    .pricing-card.featured {
-      border-color: var(--purple);
-      background: linear-gradient(180deg, rgba(107,33,168,.15) 0%, var(--card) 60%);
-    }
-    .pricing-card.featured::before {
-      content: 'MAIS POPULAR';
-      position: absolute; top: -14px; left: 50%;
-      transform: translateX(-50%);
-      background: var(--purple); color: white;
-      font-size: 11px; font-weight: 800; letter-spacing: .12em;
-      padding: 4px 16px; border-radius: 999px;
-    }
-    .pricing-name {
-      font-size: 13px; font-weight: 700;
-      letter-spacing: .08em; text-transform: uppercase;
-      color: var(--muted); margin-bottom: 8px;
-    }
-    .pricing-price {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 44px; font-weight: 700;
-      line-height: 1; margin-bottom: 4px;
-    }
-    .pricing-price sup { font-size: 20px; vertical-align: super; font-weight: 500; }
-    .pricing-per { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
-    .pricing-trial {
-      font-size: 12px; font-weight: 700; color: var(--orange);
-      background: rgba(249,115,22,.08); border: 1px solid rgba(249,115,22,.2);
-      border-radius: 8px; padding: 8px 14px; margin-bottom: 24px;
-      display: block; text-align: center;
-    }
-    .pricing-features { list-style: none; margin-bottom: 32px; }
-    .pricing-features li {
-      display: flex; align-items: flex-start; gap: 10px;
-      font-size: 14px; line-height: 1.5; margin-bottom: 13px;
-    }
-    .pricing-features li .ck { color: var(--purple-l); font-size: 15px; flex-shrink: 0; margin-top: 1px; }
-    .pricing-features li.dim { color: var(--muted); }
-    .pricing-features li.dim .ck { color: var(--muted); }
+/* Método Real */
+.mr{display:grid;grid-template-columns:1.2fr .8fr;gap:30px;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:22px;padding:38px}
+.mr h2{font-size:1.75rem}
+.mr p{color:var(--text2);margin:12px 0 18px}
+.mr ul{list-style:none}
+.mr li{display:flex;gap:10px;font-size:.92rem;color:var(--text2);padding:5px 0}
+.mr li svg{flex-shrink:0;margin-top:3px;color:var(--p)}
+.mr-box{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center}
+.mr-box small{font-size:.74rem;font-weight:800;letter-spacing:.06em;color:var(--text3);text-transform:uppercase}
+.mr-box .price{font-size:2.1rem}
+.mr-box .btn{width:100%;margin-top:14px}
+.btn-pur{background:var(--p);color:#fff}
+.btn-pur:hover{background:#8b5cf6}
 
-    /* FAQ */
-    .section-faq { padding: 96px 0; }
-    .faq-list { max-width: 680px; margin: 0 auto; }
-    details {
-      border: 1px solid var(--border);
-      border-radius: 12px; margin-bottom: 10px; overflow: hidden;
-    }
-    summary {
-      padding: 20px 24px; font-size: 15px; font-weight: 600;
-      cursor: pointer; display: flex; align-items: center;
-      justify-content: space-between; list-style: none;
-      user-select: none; background: var(--card);
-    }
-    summary::-webkit-details-marker { display: none; }
-    summary::after { content: '+'; font-size: 22px; color: var(--purple-l); flex-shrink: 0; }
-    details[open] summary::after { content: '−'; }
-    details[open] summary { border-bottom: 1px solid var(--border); }
-    .faq-answer {
-      padding: 20px 24px; font-size: 15px;
-      color: var(--muted); line-height: 1.7;
-      background: var(--bg3);
-    }
+/* Guarantee */
+.gar{display:flex;gap:22px;align-items:center;max-width:760px;margin:0 auto;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px}
+.seal{flex-shrink:0;width:86px;height:86px;border-radius:50%;border:2px solid var(--in);display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--in);font-weight:900;font-size:1.8rem;line-height:1}
+.seal small{font-size:.62rem;letter-spacing:.08em;margin-top:4px}
+.gar h3{font-size:1.15rem;font-weight:800;color:#f1eefa;margin-bottom:4px}
+.gar p{color:var(--text2);font-size:.95rem}
 
-    /* FINAL CTA */
-    .section-cta {
-      padding: 96px 0; text-align: center;
-      position: relative; overflow: hidden;
-    }
-    .section-cta::before {
-      content: '';
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 700px; height: 400px;
-      background: radial-gradient(ellipse, rgba(147,51,234,.18) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .cta-box {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 24px; padding: 72px 48px;
-      max-width: 680px; margin: 0 auto; position: relative;
-    }
-    .cta-box h2 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(26px, 4vw, 40px);
-      font-weight: 700; margin-bottom: 16px; line-height: 1.15;
-    }
-    .cta-box p { color: var(--muted); font-size: 17px; margin-bottom: 40px; line-height: 1.6; }
-    .cta-guarantee {
-      display: flex; align-items: center; justify-content: center;
-      gap: 8px; font-size: 13px; color: var(--muted); margin-top: 20px;
-    }
+/* FAQ */
+.faq{max-width:760px;margin:0 auto}
+details{background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:10px;overflow:hidden}
+summary{cursor:pointer;list-style:none;padding:18px 20px;font-weight:700;color:#f1eefa;display:flex;justify-content:space-between;gap:16px;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary svg{flex-shrink:0;transition:transform .2s;color:var(--text3)}
+details[open] summary svg{transform:rotate(45deg)}
+details p{padding:0 20px 18px;color:var(--text2);font-size:.95rem}
 
-    /* FOOTER */
-    footer { padding: 48px 0 32px; border-top: 1px solid var(--border); }
-    .footer-inner {
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 24px;
-    }
-    .footer-logo {
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 700; font-size: 16px;
-      color: var(--text); text-decoration: none;
-    }
-    .footer-logo span { color: var(--orange); }
-    .footer-links { display: flex; gap: 24px; list-style: none; flex-wrap: wrap; }
-    .footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color .15s; }
-    .footer-links a:hover { color: var(--text); }
-    .footer-copy { font-size: 12px; color: var(--muted); }
+/* Final */
+.final{text-align:center}
+.final h2{max-width:640px;margin:0 auto}
+.final p{color:var(--text2);margin:14px auto 28px;max-width:520px}
+.final .ctas{justify-content:center}
 
-    @media (max-width: 640px) {
-      .cta-box { padding: 48px 24px; }
-      .footer-inner { flex-direction: column; text-align: center; }
-      .footer-links { justify-content: center; }
-      .pricing-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+footer{border-top:1px solid var(--border);padding:30px 0;font-size:.82rem;color:var(--text3)}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+footer a{color:var(--text2)}
+footer a:hover{color:var(--text)}
+.fl{display:flex;gap:18px;flex-wrap:wrap}
+
+@media(max-width:900px){
+  .hero .wrap,.mr{grid-template-columns:1fr}
+  .feat{grid-template-columns:1fr 1fr}
+  .how{grid-template-columns:1fr}
+  h1{font-size:2.35rem}
+}
+@media(max-width:640px){
+  section{padding:60px 0}
+  .hero{padding:44px 0 48px}
+  h1{font-size:2rem}
+  h2{font-size:1.65rem}
+  .cmp,.plans,.feat{grid-template-columns:1fr}
+  .plans{gap:26px}
+  .mr{padding:24px}
+  .gar{flex-direction:column;text-align:center}
+  .ctas .btn{width:100%}
+  .lnk.hide-m{display:none}
+}
+</style>
 </head>
 <body>
 
-<a href="#main" style="position:absolute;left:-9999px">Ir para o conteúdo</a>
-
-<!-- NAV -->
 <nav>
-  <div class="container">
-    <div class="nav-inner">
-      <a class="nav-logo" href="#">
-        <span class="logo-badge">REAL</span>
-        Calculadora<span style="color:var(--orange)">.</span>
-      </a>
-      <ul class="nav-links">
-        <li><a href="#logica">Como funciona</a></li>
-        <li><a href="#funcionalidades">Funcionalidades</a></li>
-        <li><a href="#planos">Planos</a></li>
-        <li><a href="#faq">FAQ</a></li>
-      </ul>
-      <div class="nav-cta">
-        <a class="btn btn-ghost" href="https://calculadorarealecom.com.br/login" style="padding:10px 20px;font-size:14px;">Entrar</a>
-        <a class="btn btn-primary" href="https://calculadorarealecom.com.br/registro" style="padding:10px 20px;font-size:14px;">Testar grátis</a>
-      </div>
+  <div class="wrap">
+    <a href="#topo"><img src="https://calculadorarealecom.com.br/logo.png" alt="realecom"></a>
+    <div class="nav-r">
+      <a class="lnk hide-m" href="#ferramentas">Ferramentas</a>
+      <a class="lnk hide-m" href="#planos">Planos</a>
+      <a class="lnk" href="https://calculadorarealecom.com.br">Entrar</a>
+      <a class="btn btn-p btn-sm" href="#planos">Assinar</a>
     </div>
   </div>
 </nav>
 
-<!-- HERO -->
-<main id="main">
-<section class="hero text-center">
-  <div class="container">
-    <span class="hero-pill">⚡ 7 dias grátis — sem cartão</span>
-    <h1>
-      Você define o preço de mercado.<br>
-      A gente te diz <span class="hl">quanto pagar no produto</span><br>
-      para ter margem de verdade.
-    </h1>
-    <p class="hero-sub">
-      Toda calculadora parte do custo. A REAL parte do mercado — e te diz o preço máximo que você pode pagar no produto para ser competitivo e lucrativo ao mesmo tempo.
-    </p>
-    <div class="hero-ctas">
-      <a class="btn btn-primary btn-lg" href="https://calculadorarealecom.com.br/registro">Começar teste grátis de 7 dias →</a>
-      <a class="btn btn-ghost btn-lg" href="#logica">Ver como funciona</a>
-    </div>
-    <div class="hero-trust">
-      <div class="trust-item"><span class="trust-dot"></span>Sem cartão de crédito</div>
-      <div class="trust-item"><span class="trust-dot"></span>Cancela quando quiser</div>
-      <div class="trust-item"><span class="trust-dot"></span>Produto salvo para pesquisa</div>
-      <div class="trust-item"><span class="trust-dot"></span>Alerta de giro no WhatsApp</div>
+<header class="hero" id="topo">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow"><span></span>Precificação para o Mercado Livre</div>
+      <h1>Saiba quanto pagar no produto <span class="hl">antes de comprar.</span></h1>
+      <p class="lead">A Calculadora REAL parte do preço que o mercado já pratica e mostra o preço máximo que você pode pagar no fornecedor para ter a margem que quer, já com taxa do Mercado Livre, frete e imposto na conta.</p>
+      <div class="ctas">
+        <a class="btn btn-p" href="#planos">Quero a Calculadora
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn btn-s" href="#como-funciona">Como funciona</a>
+      </div>
+      <div class="trust">
+        <div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Garantia de 7 dias</div>
+        <div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Acesso imediato</div>
+        <div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Cancele quando quiser</div>
+      </div>
     </div>
 
-    <!-- DEMO MOCK -->
-    <div class="hero-demo">
-      <div class="demo-frame">
-        <div class="demo-topbar">
-          <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
-          <div class="demo-url">calculadorarealecom.com.br — Estudo de Produto</div>
-        </div>
-        <div class="demo-body">
-          <div class="demo-label">📍 Você informa o mercado</div>
-          <div class="demo-input-row">
-            <div class="demo-input">
-              <div class="demo-input-label">Preço médio do mercado</div>
-              <div class="demo-input-val" style="color:var(--text)">R$ 89,90</div>
-            </div>
-            <div class="demo-input">
-              <div class="demo-input-label">Margem desejada</div>
-              <div class="demo-input-val" style="color:var(--text)">20%</div>
-            </div>
-          </div>
-          <hr class="demo-divider">
-          <div class="demo-result-label">✅ Calculadora REAL responde</div>
-          <div class="demo-result-main">R$ 28,40</div>
-          <div class="demo-result-sub">Preço máximo de compra para ter 20% de margem real a R$ 89,90</div>
-          <div class="demo-chips">
-            <div class="demo-chip">Taxa ML <span>16,5%</span></div>
-            <div class="demo-chip">Frete Full <span>R$ 9,80</span></div>
-            <div class="demo-chip">Simples Nacional <span>6%</span></div>
-            <div class="demo-chip">Pressão de venda <span>14 un/dia</span></div>
-            <div class="demo-chip">Capital de giro <span>R$ 6.200</span></div>
-          </div>
-          <div class="demo-save-btn">📌 Salvar produto para acompanhar</div>
+    <div class="mock" aria-label="Exemplo de cálculo">
+      <div class="mock-h"><span>Estudo de produto</span><b>Calculadora REAL</b></div>
+      <div class="field"><span>Preço médio no mercado</span><b>R$ 89,90</b></div>
+      <div class="field"><span>Margem que você quer</span><b>20%</b></div>
+      <div class="answer">
+        <small>Você pode pagar no máximo</small><br>
+        <span class="big">R$ 28,40</span>
+        <p>por unidade no fornecedor para vender a R$ 89,90 com 20% de margem real.</p>
+        <div class="chips">
+          <span class="chip">Taxa ML</span><span class="chip">Frete Full</span><span class="chip">Simples Nacional</span><span class="chip">Publicidade</span>
         </div>
       </div>
-      <div class="demo-glow"></div>
+      <div class="ex">Valores ilustrativos</div>
     </div>
+  </div>
+</header>
 
-    <!-- DIFFERENTIATOR BANNER -->
-    <div class="diff-banner">
-      <div class="diff-icon">🔄</div>
-      <div class="diff-text">
-        <h3>A lógica invertida que muda tudo</h3>
-        <p>Toda calculadora do mercado começa pelo custo e "descobre" o preço de venda. O problema: o mercado não liga pra quanto você pagou. Ele já tem um preço médio. A Calculadora REAL parte daí — e te diz se o produto cabe no seu negócio <em>antes</em> de você comprar.</p>
+<section class="alt" id="como-funciona">
+  <div class="wrap">
+    <div class="sh">
+      <h2>A lógica invertida que evita comprar estoque errado</h2>
+      <p>O mercado não liga para quanto você pagou no produto. Ele já tem um preço. Por isso a conta começa por ele.</p>
+    </div>
+    <div class="cmp">
+      <div class="cmp-c">
+        <span class="tag bad">COMO A MAIORIA FAZ</span>
+        <h3>Começa pelo custo e torce para o mercado aceitar</h3>
+        <ol class="steps">
+          <li>Acha o produto por R$ 35 no fornecedor</li>
+          <li>Coloca o markup e chega em R$ 63</li>
+          <li>Descobre que o mercado vende a R$ 49</li>
+          <li>Ou vende sem margem, ou não vende</li>
+        </ol>
+        <div class="res">Você só descobre o erro depois de comprar.</div>
+      </div>
+      <div class="cmp-c good">
+        <span class="tag ok">COMO A CALCULADORA REAL FAZ</span>
+        <h3>Começa pelo mercado e mostra o que você pode pagar</h3>
+        <ol class="steps">
+          <li>O preço médio do mercado é R$ 49</li>
+          <li>Você define a margem que quer: 20%</li>
+          <li>A Calculadora mostra o preço máximo de compra</li>
+          <li>Você negocia com o fornecedor com o número na mão</li>
+        </ol>
+        <div class="res">Você decide antes de gastar um real em estoque.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- LOGIC FLIP -->
-<section class="section-flip" id="logica">
-  <div class="container">
-    <div class="text-center" style="margin-bottom:56px">
-      <span class="tag">A diferença na prática</span>
-      <h2 class="section-title">Por que a ordem importa tanto?</h2>
-      <p class="section-sub" style="margin-bottom:0">Calcular do custo pro preço é apostar. Calcular do preço pro custo é decidir.</p>
+<section id="ferramentas">
+  <div class="wrap">
+    <div class="sh">
+      <h2>Tudo o que você precisa para precificar e gerir a operação</h2>
+      <p>Ferramentas feitas para quem vende no Mercado Livre, em um só lugar.</p>
     </div>
-    <div class="flip-grid">
-      <div class="flip-card wrong">
-        <span class="flip-badge wrong">❌ Como todo mundo faz</span>
-        <h3>Começa pelo custo,<br>reza pro mercado aceitar</h3>
-        <div class="flip-step">
-          <div class="flip-step-num">1</div>
-          <div>Encontra o produto por R$ 35 no fornecedor</div>
-        </div>
-        <div class="flip-step">
-          <div class="flip-step-num">2</div>
-          <div>Coloca 80% de markup → preço de R$ 63</div>
-        </div>
-        <div class="flip-step">
-          <div class="flip-step-num">3</div>
-          <div>Depois descobre que o mercado pratica R$ 49</div>
-        </div>
-        <div class="flip-step">
-          <div class="flip-step-num">4</div>
-          <div>Ou vende sem margem, ou não vende</div>
-        </div>
-        <div class="flip-conclusion">Você só descobre o erro depois de comprar o estoque.</div>
-      </div>
-      <div class="flip-card right">
-        <span class="flip-badge right">✓ Como a Calculadora REAL funciona</span>
-        <h3>Começa pelo mercado,<br>sabe o que pode pagar</h3>
-        <div class="flip-step">
-          <div class="flip-step-num">1</div>
-          <div>Pesquisa: o preço médio do mercado é R$ 49</div>
-        </div>
-        <div class="flip-step">
-          <div class="flip-step-num">2</div>
-          <div>Define a margem que quer: 20%</div>
-        </div>
-        <div class="flip-step">
-          <div class="flip-step-num">3</div>
-          <div>A REAL responde: preço máximo de compra é R$ 15,80</div>
-        </div>
-        <div class="flip-step">
-          <div class="flip-step-num">4</div>
-          <div>Vai pro fornecedor sabendo o número que precisa bater</div>
-        </div>
-        <div class="flip-conclusion">Você negocia com o fornecedor com número na mão — ou descarta antes de gastar.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FEATURES -->
-<section class="section-features" id="funcionalidades">
-  <div class="container">
-    <div class="text-center" style="margin-bottom:56px">
-      <span class="tag">Funcionalidades</span>
-      <h2 class="section-title">Tudo que o seller sério precisa<br><span class="hl">em um só lugar</span></h2>
-      <p class="section-sub" style="margin-bottom:0">Cada ferramenta foi construída pra resolver um problema real de quem vende no ML.</p>
-    </div>
-    <div class="features-grid">
-
-      <div class="feat">
-        <div class="feat-star"></div>
-        <div class="feat-icon">🎯</div>
+    <div class="feat">
+      <div class="f">
+        <div class="ic" style="background:#7c3aed"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h8M8 14h4"/></svg></div>
         <h3>Preço máximo de compra</h3>
-        <p>Define o preço de mercado e a margem que quer. A calculadora te diz até quanto você pode pagar no produto para ser competitivo e lucrativo. Negocia com o fornecedor com número na mão.</p>
-        <span class="feat-badge">Diferencial exclusivo</span>
+        <p>Do preço do mercado até o custo ideal, com margem, ROI e markup, e simulação de 0% a 20% de margem.</p>
       </div>
-
-      <div class="feat">
-        <div class="feat-star"></div>
-        <div class="feat-icon">📌</div>
-        <h3>Salvar produto e voltar quando quiser</h3>
-        <p>Salvou um produto em pesquisa? Ele fica salvo na sua conta. Volte pra análise em qualquer momento, compare fornecedores ou refaça a conta quando o mercado mudar. Imprescindível pra quem pesquisa sério.</p>
-        <span class="feat-badge purple-badge">Pesquisa contínua</span>
+      <div class="f">
+        <div class="ic" style="background:#ea580c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
+        <h3>Produtos salvos</h3>
+        <p>Salve cada estudo, compare produtos e volte para refazer a conta quando o mercado mudar.</p>
       </div>
-
-      <div class="feat">
-        <div class="feat-star"></div>
-        <div class="feat-icon">📦</div>
-        <h3>Calculadora de giro e alerta de ruptura</h3>
-        <p>Define o nível mínimo de estoque. Quando o produto estiver perto de zerar, você recebe alerta direto no WhatsApp antes de entrar em ruptura. Chega de perder venda por falta de produto.</p>
-        <span class="feat-badge">Alerta no WhatsApp</span>
+      <div class="f">
+        <div class="ic" style="background:#6d28d9"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
+        <h3>Giro de estoque</h3>
+        <p>Calcule a rotação, o ponto de recompra e quantos dias o estoque aguenta, considerando o prazo do fornecedor.</p>
       </div>
-
-      <div class="feat">
-        <div class="feat-star"></div>
-        <div class="feat-icon">📅</div>
-        <h3>Calendário financeiro com alerta</h3>
-        <p>Visualize o ciclo financeiro do seu negócio: quando o dinheiro entra, quando sai, qual é o gap de caixa. Receba lembretes no WhatsApp nos momentos críticos do seu ciclo.</p>
-        <span class="feat-badge">Alerta no WhatsApp</span>
+      <div class="f">
+        <div class="ic" style="background:#db2777"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
+        <h3>Publicidade (ROAS e ACOS)</h3>
+        <p>Descubra o ROAS e o ACOS que o seu produto aguenta antes de ligar o anúncio.</p>
       </div>
-
-      <div class="feat">
-        <div class="feat-star"></div>
-        <div class="feat-icon">🧾</div>
-        <h3>Calculadora de Simples Nacional</h3>
-        <p>Simula o imposto real de acordo com a sua faixa do Simples Nacional e o anexo correto. Sem chute, sem estimativa genérica — o imposto que você vai pagar de verdade já entra na conta da margem.</p>
+      <div class="f">
+        <div class="ic" style="background:#0e7490"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg></div>
+        <h3>Simples Nacional</h3>
+        <p>Calcule a alíquota efetiva da sua faixa para o imposto entrar certo na margem.</p>
       </div>
-
-      <div class="feat">
-        <div class="feat-star"></div>
-        <div class="feat-icon">📣</div>
-        <h3>Calculadora de Ads</h3>
-        <p>Simule o impacto do Product Ads na sua margem antes de ligar o anúncio. Descubra o CPC máximo que seu produto aguenta sem destruir a lucratividade.</p>
+      <div class="f">
+        <div class="ic" style="background:#15803d"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <h3>Financeiro</h3>
+        <p>Entradas, saídas e contas fixas do mês para saber se a operação está dando dinheiro.</p>
       </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- PROOF -->
-<section class="section-proof">
-  <div class="container">
-    <div class="text-center" style="margin-bottom:56px">
-      <span class="tag">Resultados reais</span>
-      <h2 class="section-title">Quem usa sabe o número<br><span class="hlp">antes de comprar.</span></h2>
-    </div>
-    <div class="proof-stats">
-      <div class="stat">
-        <div class="stat-num" style="color:var(--purple-l)">+400</div>
-        <div class="stat-label">Sellers ativos</div>
+      <div class="f">
+        <div class="ic" style="background:#0891b2"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <h3>Conciliação ML + Mercado Pago</h3>
+        <p>Suba as planilhas e confira se o que vendeu é o que caiu na conta.</p>
       </div>
-      <div class="stat">
-        <div class="stat-num" style="color:var(--orange)">R$ 2M+</div>
-        <div class="stat-label">Em produto analisado</div>
+      <div class="f">
+        <div class="ic" style="background:#2563eb"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+        <h3>Calendário e sazonalidades</h3>
+        <p>Coletas, vencimentos e as datas fortes do varejo, com lembretes para preparar o estoque com antecedência.</p>
       </div>
-      <div class="stat">
-        <div class="stat-num" style="color:var(--green)">3x</div>
-        <div class="stat-label">Mais rápido pra validar produto</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num" style="color:var(--purple-l)">5 min</div>
-        <div class="stat-label">Para ter o número de compra</div>
-      </div>
-    </div>
-    <div class="testimonials">
-      <div class="testimonial">
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-text">"Antes eu comprava o produto e ficava rezando pra caber no preço do mercado. Agora eu chego no fornecedor já sabendo o máximo que posso pagar. Virou outro jogo."</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">T</div>
-          <div><div class="author-name">Thiago M.</div><div class="author-sub">Seller de eletrônicos — SP</div></div>
-        </div>
-      </div>
-      <div class="testimonial">
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-text">"O alerta de ruptura no WhatsApp salvou minha operação. Sem ele eu teria ficado sem estoque numa semana de pico e perdido o posicionamento que levei meses pra construir."</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">A</div>
-          <div><div class="author-name">Alana R.</div><div class="author-sub">Seller Full — crescimento de 0 a 6 dígitos</div></div>
-        </div>
-      </div>
-      <div class="testimonial">
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-text">"Uso o salvamento de produto toda semana. Pesquiso o nicho, salvo as análises e vou voltando pra refinar conforme negocio com o fornecedor. A pesquisa ficou muito mais organizada."</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">R</div>
-          <div><div class="author-name">Rodrigo C.</div><div class="author-sub">Seller profissional — operando de SP</div></div>
-        </div>
+      <div class="f">
+        <div class="ic" style="background:#4f46e5"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+        <h3>Prompts para fotos</h3>
+        <p>Prompts prontos para gerar as fotos do anúncio a partir do nome e das características do produto.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PRICING -->
-<section class="section-pricing" id="planos">
-  <div class="container">
-    <div class="text-center" style="margin-bottom:56px">
-      <span class="tag">Planos</span>
-      <h2 class="section-title">Escolha o plano.<br><span class="hl">7 dias grátis</span> em qualquer um.</h2>
-      <p class="section-sub" style="margin-bottom:0">Sem cartão de crédito para começar. Cancele quando quiser.</p>
+<section class="alt">
+  <div class="wrap">
+    <div class="sh c">
+      <h2>Comece em 3 passos</h2>
     </div>
-    <div class="pricing-grid">
+    <div class="how">
+      <div class="h"><div class="n">PASSO 1</div><h3>Escolha o seu plano</h3><p>Mensal ou anual, no checkout seguro da Kiwify, com cartão, Pix ou boleto.</p></div>
+      <div class="h"><div class="n">PASSO 2</div><h3>Crie a sua senha</h3><p>O acesso é liberado no e-mail da compra. Você recebe o link para criar a senha em seguida.</p></div>
+      <div class="h"><div class="n">PASSO 3</div><h3>Conecte o Mercado Livre</h3><p>Conecte a sua conta para a Calculadora trabalhar com os dados reais da sua loja.</p></div>
+    </div>
+  </div>
+</section>
 
-      <div class="pricing-card">
-        <div class="pricing-name">Starter</div>
-        <div class="pricing-price"><sup>R$</sup>47</div>
-        <div class="pricing-per">/mês · cobrado mensalmente</div>
-        <span class="pricing-trial">🎁 7 dias grátis — sem cartão</span>
-        <ul class="pricing-features">
-          <li><span class="ck">✓</span> Preço máximo de compra</li>
-          <li><span class="ck">✓</span> Calculadora de margem real</li>
-          <li><span class="ck">✓</span> Simples Nacional incluso</li>
-          <li><span class="ck">✓</span> Até 30 análises/mês</li>
-          <li class="dim"><span class="ck">—</span> Salvar produtos ilimitados</li>
-          <li class="dim"><span class="ck">—</span> Alerta de ruptura no WhatsApp</li>
-          <li class="dim"><span class="ck">—</span> Calendário com alerta WhatsApp</li>
-          <li class="dim"><span class="ck">—</span> Calculadora de Ads</li>
+<section id="planos">
+  <div class="wrap">
+    <div class="sh c">
+      <h2>Escolha o seu plano</h2>
+      <p>As mesmas ferramentas nos dois planos. No anual você paga bem menos por mês.</p>
+    </div>
+    <div class="plans">
+      <div class="plan">
+        <h3>Mensal</h3>
+        <div class="price">R$ 29,98<small>/mês</small></div>
+        <div class="per">Cobrança mensal. Cancele quando quiser.</div>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Todas as ferramentas da Calculadora</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Produtos salvos ilimitados</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Conexão com a sua conta do Mercado Livre</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Atualizações incluídas</li>
         </ul>
-        <a class="btn btn-outline-o" href="https://calculadorarealecom.com.br/registro?plano=starter" style="width:100%;justify-content:center;">Começar grátis</a>
+        <a class="btn btn-s ck" href="https://pay.kiwify.com.br/ThQz4a1">Assinar o mensal</a>
+        <div class="plan-note">Garantia de 7 dias</div>
       </div>
-
-      <div class="pricing-card featured">
-        <div class="pricing-name">Pro</div>
-        <div class="pricing-price"><sup>R$</sup>97</div>
-        <div class="pricing-per">/mês · cobrado mensalmente</div>
-        <span class="pricing-trial">🎁 7 dias grátis — sem cartão</span>
-        <ul class="pricing-features">
-          <li><span class="ck">✓</span> Tudo do Starter</li>
-          <li><span class="ck">✓</span> <strong>Salvar produtos ilimitados</strong></li>
-          <li><span class="ck">✓</span> <strong>Alerta de ruptura no WhatsApp</strong></li>
-          <li><span class="ck">✓</span> <strong>Calendário com alerta WhatsApp</strong></li>
-          <li><span class="ck">✓</span> Calculadora de Ads</li>
-          <li><span class="ck">✓</span> Análises ilimitadas</li>
-          <li><span class="ck">✓</span> Histórico completo de análises</li>
-          <li><span class="ck">✓</span> Suporte prioritário</li>
+      <div class="plan best">
+        <span class="badge">MAIS ESCOLHIDO</span>
+        <h3>Anual</h3>
+        <div class="price">R$ 199,98<small>/ano</small></div>
+        <div class="per">Equivale a R$ 16,67 por mês.<br><b>Economia de R$ 159,78</b> em relação ao mensal.</div>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Tudo do plano mensal</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>12 meses sem se preocupar com mensalidade</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Quase 45% mais barato por mês</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Atualizações incluídas</li>
         </ul>
-        <a class="btn btn-primary" href="https://calculadorarealecom.com.br/registro?plano=pro" style="width:100%;justify-content:center;">Começar grátis — Pro</a>
+        <a class="btn btn-p ck" href="https://pay.kiwify.com.br/6H9q8KP">Assinar o anual</a>
+        <div class="plan-note">Garantia de 7 dias</div>
       </div>
+    </div>
+  </div>
+</section>
 
-      <div class="pricing-card">
-        <div class="pricing-name" style="color:var(--orange)">Pro Anual</div>
-        <div class="pricing-price"><sup>R$</sup>67</div>
-        <div class="pricing-per">/mês · R$ 797/ano · <span style="color:var(--orange);font-weight:700">economiza R$ 367</span></div>
-        <span class="pricing-trial">🎁 7 dias grátis — sem cartão</span>
-        <ul class="pricing-features">
-          <li><span class="ck">✓</span> Tudo do Pro</li>
-          <li><span class="ck">✓</span> Acesso antecipado a novidades</li>
-          <li><span class="ck">✓</span> 1 sessão de onboarding 1:1</li>
-          <li><span class="ck">✓</span> Badge de membro fundador</li>
+<section class="alt">
+  <div class="wrap">
+    <div class="mr">
+      <div>
+        <div class="eyebrow" style="color:#a78bfa"><span style="background:#a78bfa"></span>Está começando do zero?</div>
+        <h2>A ferramenta mostra o número. O Método Real mostra o caminho.</h2>
+        <p>Curso gravado da realecom para quem ainda não vende online e quer montar a operação no Mercado Livre do jeito certo.</p>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Tirar a empresa do papel e montar a estrutura da loja</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Criar a conta no Mercado Livre sem tropeçar no começo</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Logística a partir de São Paulo para vender para todo o Brasil</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Precificação e demanda na prática</li>
         </ul>
-        <a class="btn btn-ghost" href="https://calculadorarealecom.com.br/registro?plano=anual" style="width:100%;justify-content:center;border-color:var(--orange);color:var(--orange);">Começar grátis — Anual</a>
       </div>
-
-    </div>
-    <p style="text-align:center;margin-top:36px;font-size:13px;color:var(--muted);">
-      Dúvida sobre qual plano faz mais sentido? <a href="https://wa.me/5521979509790" style="color:var(--purple-l);text-decoration:none;">Fala com a gente no WhatsApp →</a>
-    </p>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section class="section-faq" id="faq">
-  <div class="container">
-    <div class="text-center" style="margin-bottom:56px">
-      <span class="tag">Perguntas frequentes</span>
-      <h2 class="section-title">Ainda tem dúvida?</h2>
-    </div>
-    <div class="faq-list">
-      <details>
-        <summary>O que é o "preço máximo de compra"?</summary>
-        <div class="faq-answer">É o principal diferencial da Calculadora REAL. Você informa o preço médio que o mercado pratica e a margem que quer ter. A ferramenta desconta todas as taxas do ML, frete, Simples Nacional e te diz o valor máximo que você pode pagar no produto para atingir essa margem. Você chega no fornecedor sabendo o número que precisa bater.</div>
-      </details>
-      <details>
-        <summary>Como funciona o salvamento de produto?</summary>
-        <div class="faq-answer">Você pode salvar qualquer análise na sua conta com nome, categoria e todos os parâmetros. Ela fica disponível pra você voltar quando quiser — seja pra refinar a negociação com o fornecedor, comparar opções ou revisar quando o preço de mercado mudar. Funciona como um banco de dados da sua pesquisa de produto.</div>
-      </details>
-      <details>
-        <summary>Como funciona o alerta de ruptura no WhatsApp?</summary>
-        <div class="faq-answer">Você define o estoque mínimo de cada produto. Quando o nível cair abaixo do que você configurou, a Calculadora REAL te manda uma mensagem automática no WhatsApp avisando que é hora de repor. Disponível nos planos Pro e Anual.</div>
-      </details>
-      <details>
-        <summary>A calculadora já considera o Simples Nacional automaticamente?</summary>
-        <div class="faq-answer">Sim. Você informa o seu anexo e faixa de faturamento, e o imposto já entra no cálculo da margem real. Nada de estimativa genérica — é o imposto real que você vai pagar.</div>
-      </details>
-      <details>
-        <summary>Preciso de cartão de crédito pra testar?</summary>
-        <div class="faq-answer">Não. O teste de 7 dias não exige cartão. Você só cadastra a forma de pagamento se decidir continuar após o período gratuito.</div>
-      </details>
-      <details>
-        <summary>Preciso ser mentee da RealEcom pra usar?</summary>
-        <div class="faq-answer">Não. A Calculadora REAL é uma ferramenta independente, disponível pra qualquer vendedor do Mercado Livre. Se você é mentee, alguns recursos avançados de metodologia já estão incluídos no seu acesso.</div>
-      </details>
-    </div>
-  </div>
-</section>
-
-<!-- FINAL CTA -->
-<section class="section-cta">
-  <div class="container">
-    <div class="cta-box">
-      <span class="tag">Comece agora</span>
-      <h2>Chega de comprar produto<br>na base do <span class="hl">achismo.</span></h2>
-      <p>Teste grátis por 7 dias. Sem cartão, sem enrolação.<br>Em 5 minutos você já sabe o máximo que pode pagar no seu próximo produto.</p>
-      <a class="btn btn-primary btn-lg" href="https://calculadorarealecom.com.br/registro">
-        Começar teste grátis de 7 dias →
-      </a>
-      <div class="cta-guarantee">
-        <span>🔒</span> Seus dados estão seguros. Cancele quando quiser.
+      <div class="mr-box">
+        <small>Método Real</small>
+        <div class="price">R$ 288,97</div>
+        <div class="per" style="min-height:0">Pagamento único · Garantia de 7 dias</div>
+        <a class="btn btn-pur ck" href="https://pay.kiwify.com.br/RCQ6nBI">Quero o Método Real</a>
       </div>
     </div>
   </div>
 </section>
-</main>
 
-<!-- FOOTER -->
+<section>
+  <div class="wrap">
+    <div class="gar">
+      <div class="seal">7<small>DIAS</small></div>
+      <div>
+        <h3>Garantia incondicional de 7 dias</h3>
+        <p>Assine, use e teste com os seus produtos. Se não for para você, peça o reembolso em até 7 dias pela própria Kiwify e devolvemos 100% do valor.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="sh c"><h2>Perguntas frequentes</h2></div>
+    <div class="faq">
+      <details>
+        <summary>O que é o "preço máximo de compra"?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
+        <p>É o valor máximo que você pode pagar por unidade no fornecedor para vender ao preço que o mercado já pratica e ainda ter a margem que você definiu, já descontando taxa do Mercado Livre, frete, imposto e os outros custos.</p>
+      </details>
+      <details>
+        <summary>Como eu acesso depois de comprar?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
+        <p>O acesso é liberado automaticamente no e-mail da compra. Você recebe o link para criar a senha e entra em calculadorarealecom.com.br. No primeiro acesso, você conecta a sua conta do Mercado Livre.</p>
+      </details>
+      <details>
+        <summary>Por que preciso conectar a minha conta do Mercado Livre?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
+        <p>Para a Calculadora trabalhar com os dados reais da sua loja. A conexão é feita pelo próprio Mercado Livre: nós nunca vemos a sua senha, e você pode desconectar quando quiser.</p>
+      </details>
+      <details>
+        <summary>Preciso ser aluno da realecom para usar?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
+        <p>Não. A Calculadora REAL é para qualquer pessoa que vende ou quer vender no Mercado Livre.</p>
+      </details>
+      <details>
+        <summary>Funciona no celular?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
+        <p>Sim. A Calculadora funciona no navegador do computador, do tablet e do celular, sem instalar nada.</p>
+      </details>
+      <details>
+        <summary>Como cancelo a assinatura?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
+        <p>Pela Kiwify, quando quiser. Você continua com acesso até o fim do período que já pagou.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <h2>Chega de comprar produto no achismo.</h2>
+    <p>Descubra o número antes de falar com o fornecedor.</p>
+    <div class="ctas">
+      <a class="btn btn-p ck" href="https://pay.kiwify.com.br/6H9q8KP">Assinar o anual por R$ 199,98</a>
+      <a class="btn btn-s ck" href="https://pay.kiwify.com.br/ThQz4a1">Ou o mensal por R$ 29,98</a>
+    </div>
+  </div>
+</section>
+
 <footer>
-  <div class="container">
-    <div class="footer-inner">
-      <a class="footer-logo" href="#">Calculadora<span>REAL</span></a>
-      <ul class="footer-links">
-        <li><a href="#logica">Como funciona</a></li>
-        <li><a href="#planos">Planos</a></li>
-        <li><a href="https://realecom.app">RealEcom</a></li>
-        <li><a href="#">Termos de uso</a></li>
-        <li><a href="#">Privacidade</a></li>
-      </ul>
-      <p class="footer-copy">© <script>document.write(new Date().getFullYear())</script> RealEcom. Todos os direitos reservados.</p>
+  <div class="wrap">
+    <div>© 2026 realecom · Calculadora REAL</div>
+    <div class="fl">
+      <a href="https://calculadorarealecom.com.br">Entrar</a>
+      <a href="https://calculadorarealecom.com.br/termos.html">Termos de Uso</a>
+      <a href="https://calculadorarealecom.com.br/privacidade.html">Privacidade</a>
+      <a href="https://wa.me/5521979509790" target="_blank" rel="noopener">WhatsApp</a>
     </div>
   </div>
 </footer>
 
+<script>
+// Repassa as UTMs do anúncio para o checkout da Kiwify (rastreio de campanha)
+(function(){
+  try{
+    var qs = location.search.replace(/^\?/, '');
+    if(!qs) return;
+    document.querySelectorAll('a.ck').forEach(function(a){
+      a.href += (a.href.indexOf('?') > -1 ? '&' : '?') + qs;
+    });
+  }catch(e){}
+})();
+</script>
 </body>
 </html>
