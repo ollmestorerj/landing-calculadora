@@ -158,6 +158,11 @@ details p{padding:0 20px 18px;color:var(--text2);font-size:.95rem}
 .final p{color:var(--text2);margin:14px auto 28px;max-width:520px}
 .final .ctas{justify-content:center}
 
+/* Depoimentos (prints) */
+.dep{columns:3 280px;column-gap:14px}
+.dep figure{break-inside:avoid;margin:0 0 14px;background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.dep img{width:100%;display:block}
+.dep figcaption{padding:10px 14px;font-size:.82rem;color:var(--text2)}
 footer{border-top:1px solid var(--border);padding:30px 0;font-size:.82rem;color:var(--text3)}
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
 footer a{color:var(--text2)}
@@ -336,6 +341,16 @@ footer a:hover{color:var(--text)}
   </div>
 </section>
 
+<section id="depoimentos" style="display:none">
+  <div class="wrap">
+    <div class="sh c">
+      <h2>Quem usa, conta</h2>
+      <p>Mensagens reais de quem usa a Calculadora REAL no dia a dia.</p>
+    </div>
+    <div class="dep" id="dep-lista"></div>
+  </div>
+</section>
+
 <section id="planos">
   <div class="wrap">
     <div class="sh c">
@@ -465,6 +480,23 @@ footer a:hover{color:var(--text)}
   </div>
 </footer>
 
+<script>
+// DEPOIMENTOS: coloque os prints na pasta /depoimentos e liste aqui.
+// Enquanto a lista estiver vazia, a seção fica escondida.
+// Ex.: { img: 'depoimentos/joao.jpg', legenda: 'João, seller de casa e decoração' }
+var DEPOIMENTOS = [];
+(function(){
+  if(!DEPOIMENTOS.length) return;
+  var box=document.getElementById('dep-lista');
+  DEPOIMENTOS.forEach(function(d){
+    var f=document.createElement('figure');
+    var i=document.createElement('img'); i.src=d.img; i.alt='Depoimento'; i.loading='lazy'; f.appendChild(i);
+    if(d.legenda){ var c=document.createElement('figcaption'); c.textContent=d.legenda; f.appendChild(c); }
+    box.appendChild(f);
+  });
+  document.getElementById('depoimentos').style.display='block';
+})();
+</script>
 <script>
 // Repassa as UTMs do anúncio para o checkout da Kiwify (rastreio de campanha)
 (function(){
