@@ -188,6 +188,13 @@ footer a:hover{color:var(--text)}
   .lnk.hide-m{display:none}
 }
 </style>
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','26411729151817592');
+fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=26411729151817592&ev=PageView&noscript=1"/></noscript>
 </head>
 <body>
 
@@ -507,6 +514,18 @@ var DEPOIMENTOS = [];
       a.href += (a.href.indexOf('?') > -1 ? '&' : '?') + qs;
     });
   }catch(e){}
+})();
+// Evento de início de checkout para o pixel (valor do plano clicado)
+(function(){
+  var valores={'ThQz4a1':29.98,'6H9q8KP':199.98,'RCQ6nBI':288.97};
+  document.querySelectorAll('a.ck').forEach(function(a){
+    a.addEventListener('click',function(){
+      try{
+        var cod=(a.href.match(/kiwify\.com\.br\/([A-Za-z0-9]+)/)||[])[1];
+        if(window.fbq) fbq('track','InitiateCheckout',{value:valores[cod]||0,currency:'BRL',content_name:a.textContent.trim()});
+      }catch(e){}
+    });
+  });
 })();
 </script>
 </body>
